@@ -2,7 +2,7 @@
 
 Procédure officielle de démarrage de projet chez Lithium Marketing. Ce dépôt héberge le guide HTML interne qui standardise l'initialisation de tout projet ERP ou application web de l'équipe.
 
-**Guide en ligne : [lithiummarketing.github.io/dev-standards](https://lithiummarketing.github.io/dev-standards/)**
+**Guide en ligne : [lithium-marketing.github.io/dev-standards](https://lithium-marketing.github.io/dev-standards/)**
 
 ## Contenu du dépôt
 
@@ -17,7 +17,7 @@ Procédure officielle de démarrage de projet chez Lithium Marketing. Ce dépôt
 
 Version publiée via GitHub Pages, toujours à jour avec la branche `main` :
 
-> https://lithiummarketing.github.io/dev-standards/
+> https://lithium-marketing.github.io/dev-standards/
 
 ### En local
 
