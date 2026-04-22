@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procédure de standardisation — Lithium Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f6f8fa;
+    --bg-code: #0d1117;
+    --text: #1f2328;
+    --text-muted: #59636e;
+    --text-light: #818b98;
+    --border: #d1d9e0;
+    --border-light: #eaeef2;
+    --accent: #0969da;
+    --accent-hover: #0550ae;
+    --success: #1a7f37;
+    --warning: #9a6700;
+    --danger: #cf222e;
+    --code-text: #e6edf3;
+    --code-comment: #8b949e;
+    --code-keyword: #ff7b72;
+    --code-string: #a5d6ff;
+    --code-function: #d2a8ff;
+    --radius: 6px;
+    --shadow-sm: 0 1px 2px rgba(31,35,40,0.05);
+    --shadow: 0 3px 6px rgba(31,35,40,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    background: var(--bg-alt);
+    border-right: 1px solid var(--border);
+    padding: 32px 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--text);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .brand-name {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    margin-top: 20px;
+  }
+
+  .nav-title:first-of-type { margin-top: 0; }
+
+  .nav-list { list-style: none; }
+
+  .nav-list a {
+    display: block;
+    padding: 6px 12px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: var(--radius);
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+    margin-bottom: 2px;
+  }
+
+  .nav-list a:hover {
+    background: var(--border-light);
+    color: var(--accent);
+  }
+
+  .nav-list a.active {
+    background: #ddf4ff;
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    padding: 56px 72px;
+    max-width: 960px;
+  }
+
+  .doc-header {
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .doc-kicker {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    background: #ddf4ff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .doc-meta {
+    display: flex;
+    gap: 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .doc-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .doc-subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 56px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  h2 .step-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: var(--text);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 12px;
+    vertical-align: middle;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  p { margin-bottom: 16px; }
+
+  p + p { margin-top: -4px; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover { text-decoration: underline; }
+
+  ul, ol {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  li { margin-bottom: 6px; }
+
+  li::marker { color: var(--text-muted); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+    color: var(--danger);
+  }
+
+  /* ===== CODE BLOCK ===== */
+  .code-block {
+    background: var(--bg-code);
+    border-radius: var(--radius);
+    margin: 16px 0 24px 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px 8px 16px;
+    background: #161b22;
+    border-bottom: 1px solid #30363d;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--code-comment);
+  }
+
+  .code-lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .code-lang::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #7ee787;
+  }
+
+  .code-lang.ps::before { background: #79c0ff; }
+  .code-lang.bash::before { background: #ffa657; }
+  .code-lang.md::before { background: #d2a8ff; }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid #30363d;
+    color: var(--code-comment);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover {
+    background: #30363d;
+    color: var(--code-text);
+  }
+
+  .copy-btn.copied {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+  }
+
+  .code-block pre {
+    padding: 16px;
+    overflow-x: auto;
+    color: var(--code-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .code-block code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .tok-cmt { color: var(--code-comment); font-style: italic; }
+  .tok-kw { color: var(--code-keyword); }
+  .tok-str { color: var(--code-string); }
+  .tok-fn { color: var(--code-function); }
+  .tok-var { color: #ffa657; }
+
+  /* ===== CALLOUTS ===== */
+  .callout {
+    border-left: 3px solid;
+    padding: 12px 16px;
+    margin: 16px 0 24px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--bg-alt);
+  }
+
+  .callout-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .callout-body { font-size: 14px; color: var(--text-muted); }
+  .callout-body p:last-child { margin-bottom: 0; }
+  .callout-body code { font-size: 12.5px; }
+
+  .callout.info { border-color: var(--accent); background: #ddf4ff; }
+  .callout.info .callout-title { color: var(--accent); }
+
+  .callout.warning { border-color: var(--warning); background: #fff8c5; }
+  .callout.warning .callout-title { color: var(--warning); }
+
+  .callout.danger { border-color: var(--danger); background: #ffebe9; }
+  .callout.danger .callout-title { color: var(--danger); }
+
+  .callout.success { border-color: var(--success); background: #dafbe1; }
+  .callout.success .callout-title { color: var(--success); }
+
+  /* ===== CHECKLIST ===== */
+  .checklist {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 24px 0;
+    list-style: none;
+    padding-left: 24px;
+  }
+
+  .checklist li {
+    padding: 6px 0;
+    padding-left: 28px;
+    position: relative;
+    font-size: 14.5px;
+  }
+
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .checklist li.done {
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .checklist li.done::before {
+    background: var(--success);
+    border-color: var(--success);
+    content: "✓";
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    font-weight: 700;
+  }
+
+  /* ===== TABLE ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px 0;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  th {
+    background: var(--bg-alt);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td code { font-size: 12.5px; }
+
+  /* ===== FILE TREE ===== */
+  .file-tree {
+    background: var(--bg-code);
+    color: var(--code-text);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 16px 0 24px 0;
+    border: 1px solid var(--border);
+  }
+  .file-tree .folder { color: #79c0ff; font-weight: 500; }
+  .file-tree .file { color: var(--code-text); }
+  .file-tree .highlight { color: #ffa657; }
+  .file-tree .cmt { color: var(--code-comment); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer .version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 32px 24px; }
+    h1 { font-size: 28px; }
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-alt); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    .copy-btn { display: none; }
+    .main { padding: 20px; max-width: 100%; }
+    .code-block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">Li</div>
+      <div>
+        <div class="brand-name">Lithium Marketing</div>
+        <div class="brand-sub">Dev Standards</div>
+      </div>
+    </div>
+
+    <div class="nav-title">Prise en main</div>
+    <ul class="nav-list">
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#prerequis">Prérequis</a></li>
+    </ul>
+
+    <div class="nav-title">Procédure</div>
+    <ul class="nav-list">
+      <li><a href="#etape-1">1. Installation Claude Code</a></li>
+      <li><a href="#etape-2">2. Préparation du projet</a></li>
+      <li><a href="#etape-3">3. Création du dépôt distant</a></li>
+      <li><a href="#etape-4">4. Délégation à Claude Code</a></li>
+      <li><a href="#etape-5">5. Validation finale</a></li>
+    </ul>
+
+    <div class="nav-title">Sécurité</div>
+    <ul class="nav-list">
+      <li><a href="#securite">.env &amp; secrets</a></li>
+      <li><a href="#gitignore">.gitignore</a></li>
+    </ul>
+
+    <div class="nav-title">Référence</div>
+    <ul class="nav-list">
+      <li><a href="#checklist">Checklist finale</a></li>
+      <li><a href="#troubleshooting">Dépannage</a></li>
+    </ul>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <header class="doc-header">
+      <span class="doc-kicker">PROCÉDURE INTERNE · v1.1</span>
+      <h1>Standardisation du démarrage de projet</h1>
+      <p class="doc-subtitle">
+        Procédure officielle pour initier, documenter et versionner tout projet ERP ou application web chez Lithium Marketing. La quasi-totalité des opérations techniques est déléguée à Claude Code — le développeur se concentre sur les décisions, pas sur les commandes.
+      </p>
+      <div class="doc-meta">
+        <span>🖥️ <strong>Environnement :</strong> Windows / PowerShell</span>
+        <span>⏱️ <strong>Durée :</strong> ~5 minutes</span>
+        <span>🤖 <strong>Approche :</strong> Déléguée à Claude Code</span>
+      </div>
+    </header>
+
+    <!-- ===== INTRODUCTION ===== -->
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>
+        Ce document décrit la procédure standard que <strong>tout développeur</strong> doit suivre au démarrage d'un projet chez Lithium Marketing. L'objectif est d'uniformiser les pratiques pour que n'importe quel membre de l'équipe puisse reprendre, comprendre et maintenir un projet sans friction.
+      </p>
+      <p>
+        La procédure repose sur un principe simple : <strong>Claude Code exécute les commandes techniques</strong> (init Git, création de fichiers, remote, push, etc.) à votre place. Le développeur se contente de préparer l'environnement, de donner le bon prompt, et de valider les actions.
+      </p>
+
+      <div class="callout info">
+        <div class="callout-title">ℹ️ À propos de CLAUDE.md</div>
+        <div class="callout-body">
+          Le fichier <code>CLAUDE.md</code> à la racine d'un projet est automatiquement chargé par Claude Code à chaque session. Il contient les règles, conventions et contexte spécifiques au projet, ce qui élimine le besoin de les répéter à chaque interaction.
+        </div>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-title">🤖 Ce que fait Claude Code pour vous</div>
+        <div class="callout-body">
+          <ul style="margin: 4px 0 0 20px;">
+            <li>Analyse du projet existant et détection de la stack</li>
+            <li>Génération du <code>.gitignore</code> adapté</li>
+            <li>Initialisation Git (<code>git init</code>)</li>
+            <li>Création de <code>CLAUDE.md</code> et <code>README.md</code></li>
+            <li>Création et configuration du <code>.env.example</code></li>
+            <li>Ajout du remote Lithium Marketing</li>
+            <li>Premier commit et push vers le remote</li>
+            <li>Tous les commits suivants, détaillés automatiquement</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRÉREQUIS ===== -->
+    <section id="prerequis">
+      <h2>Prérequis</h2>
+      <p>Avant de commencer, assurez-vous d'avoir sur votre machine :</p>
+      <ul>
+        <li><strong>Node.js</strong> (version 18 ou supérieure) — requis par Claude Code</li>
+        <li><strong>Git</strong> installé et configuré (<code>git config --global user.name</code> et <code>user.email</code>)</li>
+        <li>Un <strong>compte Anthropic</strong> avec accès à Claude Code</li>
+        <li>Accès à l'organisation <strong>Lithium Marketing</strong> sur GitHub (ou la plateforme Git utilisée)</li>
+        <li><strong>PowerShell 7+</strong> recommandé (plutôt que Windows PowerShell 5.1)</li>
+      </ul>
+
+      <h4>Vérifier les versions installées</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Vérifier Node.js et npm</span>
+node --version
+npm --version
+
+<span class="tok-cmt"># Vérifier Git</span>
+git --version
+
+<span class="tok-cmt"># Vérifier la configuration Git</span>
+git config --global user.name
+git config --global user.email</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 1 ===== -->
+    <section id="etape-1">
+      <h2><span class="step-num">1</span>Installation de Claude Code</h2>
+      <p>
+        Claude Code s'installe globalement via npm. Une seule installation par machine suffit ; il sera ensuite disponible depuis n'importe quel répertoire.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Installation globale</span>
+npm install -g @anthropic-ai/claude-code
+
+<span class="tok-cmt"># Vérifier l'installation</span>
+claude --version</code></pre>
+      </div>
+
+      <h3>Première authentification</h3>
+      <p>Au premier lancement, Claude Code vous demandera de vous authentifier avec votre compte Anthropic.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Lancer Claude Code (ouvrira la fenêtre d'authentification)</span>
+claude</code></pre>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Politique d'exécution PowerShell</div>
+        <div class="callout-body">
+          Si PowerShell bloque l'exécution de scripts npm, lancez une fois en administrateur :
+          <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 2 ===== -->
+    <section id="etape-2">
+      <h2><span class="step-num">2</span>Préparation du projet</h2>
+      <p>
+        Cette étape reste manuelle car elle dépend de votre organisation locale et de la source des fichiers. L'objectif : avoir un dossier prêt à être ouvert par Claude Code.
+      </p>
+
+      <h3>Cas A — Nouveau projet (depuis zéro)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Se placer dans le dossier des projets Lithium</span>
+cd C:\Lithium\Projets
+
+<span class="tok-cmt"># Créer le dossier du nouveau projet</span>
+New-Item -ItemType Directory -Name <span class="tok-str">"nom-du-projet"</span>
+cd nom-du-projet</code></pre>
+      </div>
+
+      <h3>Cas B — Projet existant (transfert de fichiers)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Créer le dossier et y copier les fichiers</span>
+cd C:\Lithium\Projets
+New-Item -ItemType Directory -Name <span class="tok-str">"nom-du-projet"</span>
+cd nom-du-projet
+
+<span class="tok-cmt"># Extraire l'archive dans le dossier courant</span>
+Expand-Archive -Path <span class="tok-str">"C:\Chemin\Vers\archive.zip"</span> -DestinationPath .
+
+<span class="tok-cmt"># OU copier depuis un dossier source</span>
+Copy-Item -Path <span class="tok-str">"C:\Chemin\Source\*"</span> -Destination . -Recurse</code></pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">📁 Convention de nommage</div>
+        <div class="callout-body">
+          Utilisez le <strong>kebab-case</strong> pour les noms de projets : <code>erp-client-acme</code>, <code>site-vitrine-xyz</code>. Évitez les espaces, majuscules et accents. Le nom doit être identique entre le dossier local et le dépôt distant.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 3 ===== -->
+    <section id="etape-3">
+      <h2><span class="step-num">3</span>Création du dépôt distant</h2>
+      <p>
+        Créez le dépôt distant <strong>vide</strong> dans l'organisation <strong>Lithium Marketing</strong> via l'interface web de GitHub (ou la plateforme utilisée). Cette étape doit être faite avant de lancer Claude Code pour que le remote soit prêt à recevoir le push.
+      </p>
+
+      <h3>Paramètres du dépôt</h3>
+      <ul>
+        <li><strong>Organisation :</strong> <code>lithium-marketing</code></li>
+        <li><strong>Nom :</strong> identique au dossier local (kebab-case)</li>
+        <li><strong>Visibilité :</strong> <code>Private</code> par défaut</li>
+        <li><strong>Ne pas</strong> cocher « Initialize with README »</li>
+        <li><strong>Ne pas</strong> ajouter de <code>.gitignore</code> ni de licence</li>
+      </ul>
+
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Dépôt strictement vide</div>
+        <div class="callout-body">
+          Si le dépôt distant contient déjà des fichiers (README, licence), le premier <code>push</code> de Claude échouera. Créez toujours un dépôt totalement vide.
+        </div>
+      </div>
+
+      <h3>Récupérer l'URL du dépôt</h3>
+      <p>Copiez l'URL HTTPS (ou SSH) du dépôt nouvellement créé. Vous la fournirez à Claude à l'étape suivante.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">Format attendu</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code>https://github.com/lithium-marketing/nom-du-projet.git</code></pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">🔑 Authentification Git</div>
+        <div class="callout-body">
+          Assurez-vous d'être authentifié à GitHub sur votre machine <strong>avant</strong> de demander à Claude de pusher. Utilisez <code>gh auth login</code> (GitHub CLI) ou un Personal Access Token configuré dans le credential manager Windows.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 4 ===== -->
+    <section id="etape-4">
+      <h2><span class="step-num">4</span>Délégation à Claude Code</h2>
+      <p>
+        Lancez Claude Code dans le dossier du projet, puis donnez-lui le prompt standardisé ci-dessous. Claude s'occupe de <strong>tout</strong> le reste : analyse, création des fichiers, init Git, remote, commit et push.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Lancer Claude Code dans le dossier du projet</span>
+claude</code></pre>
+      </div>
+
+      <h3>Prompt standardisé Lithium Marketing</h3>
+      <p>
+        Copiez-collez ce prompt tel quel dans Claude Code. Remplacez uniquement l'URL du remote à la fin.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">Prompt Claude Code — à copier tel quel</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code>Tu vas initialiser ce projet selon les standards Lithium Marketing.
+Exécute les étapes suivantes dans l'ordre, en me demandant
+confirmation avant toute action destructive :
+
+1. ANALYSE
+   Analyse le contenu du dossier et identifie la stack technique
+   (langages, frameworks, outils). Liste ce que tu as trouvé.
+
+2. FICHIERS DE BASE
+   Crée (s'ils n'existent pas) :
+   - .gitignore adapté à la stack détectée (secrets, node_modules,
+     builds, fichiers d'IDE, fichiers OS)
+   - .env.example listant les variables d'environnement attendues
+     (sans valeurs réelles)
+   - CLAUDE.md contenant :
+       • Description technique du projet et stack
+       • Structure des dossiers et leur rôle
+       • Conventions de code à respecter
+       • Commandes courantes (install, dev, build, test)
+       • RÈGLE DE COMMIT : toujours faire des commits détaillés
+         après chaque modification significative, avec un message
+         structuré (type: sujet + description à puces des changements).
+         Types autorisés : feat, fix, chore, docs, refactor, test, style.
+       • Particularités du projet (intégrations, API, dépendances)
+   - README.md technique destiné aux développeurs :
+       • Présentation du projet
+       • Prérequis et installation étape par étape
+       • Commandes disponibles
+       • Structure du projet
+       • Variables d'environnement requises (sans valeurs)
+       • Procédure de déploiement si applicable
+
+3. GIT
+   - Initialise Git avec la branche principale "main" (git init -b main)
+   - Vérifie que .env, secrets et node_modules sont bien exclus
+   - Fais le premier commit avec le message :
+     "chore: initial project setup with Lithium Marketing standards"
+
+4. REMOTE
+   - Ajoute le remote origin : [COLLER ICI L'URL DU DÉPÔT LITHIUM]
+   - Vérifie avec git remote -v
+   - Pousse la branche main : git push -u origin main
+
+5. RAPPORT FINAL
+   Affiche un résumé : fichiers créés, stack détectée, URL du remote,
+   et indique les prochaines étapes recommandées pour le développeur.
+
+IMPORTANT :
+- Demande-moi confirmation avant le push final
+- Si un .env existe déjà dans le dossier, NE PAS le commiter et
+  m'alerter immédiatement
+- Si un dossier .git existe déjà, m'indiquer l'état avant d'agir</code></pre>
+      </div>
+
+      <div class="callout success">
+        <div class="callout-title">✅ Ce qui se passe automatiquement</div>
+        <div class="callout-body">
+          Claude Code va analyser le projet, créer les fichiers, exécuter les commandes Git et pousser le code. Il vous demandera confirmation avant chaque action importante (premier commit, push). La règle de commits détaillés est inscrite dans <code>CLAUDE.md</code> et sera suivie à toutes les sessions futures.
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Surveillance active</div>
+        <div class="callout-body">
+          Même si Claude exécute les commandes, restez attentif aux sorties de <code>git status</code> qu'il affichera. Si un fichier <code>.env</code> ou un secret apparaît dans la liste des fichiers à commiter, <strong>interrompez Claude immédiatement</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 5 ===== -->
+    <section id="etape-5">
+      <h2><span class="step-num">5</span>Validation finale</h2>
+      <p>
+        Une fois Claude terminé, vérifiez que tout est en place avec ces quelques contrôles rapides.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang ps">PowerShell</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Vérifier le statut Git (doit être clean)</span>
+git status
+
+<span class="tok-cmt"># Vérifier que le remote est bien configuré</span>
+git remote -v
+
+<span class="tok-cmt"># Vérifier que .env est bien ignoré</span>
+git check-ignore .env
+
+<span class="tok-cmt"># Consulter l'historique des commits</span>
+git log --oneline</code></pre>
+      </div>
+
+      <h3>Contrôles à effectuer dans l'interface web du dépôt</h3>
+      <ul>
+        <li>Le code est bien visible sur la plateforme</li>
+        <li><code>CLAUDE.md</code> et <code>README.md</code> sont présents</li>
+        <li>Aucun <code>.env</code> n'est visible dans le dépôt</li>
+        <li>Aucun dossier <code>node_modules</code> ou équivalent</li>
+        <li>Le README s'affiche correctement sur la page d'accueil</li>
+      </ul>
+
+      <h3>Structure finale attendue</h3>
+      <div class="file-tree">
+<span class="folder">mon-projet/</span>
+├── <span class="highlight">CLAUDE.md</span>              <span class="cmt"># Chargé automatiquement par Claude Code</span>
+├── <span class="highlight">README.md</span>              <span class="cmt"># Documentation développeur</span>
+├── <span class="file">.gitignore</span>             <span class="cmt"># Adapté à la stack</span>
+├── <span class="file">.env.example</span>           <span class="cmt"># Template des variables d'env</span>
+├── <span class="file">.env</span>                   <span class="cmt"># Local uniquement, JAMAIS commité</span>
+├── <span class="folder">src/</span>
+└── <span class="file">package.json</span>
+      </div>
+
+      <h3>Commits suivants — Gérés automatiquement par Claude</h3>
+      <p>
+        Grâce à la règle inscrite dans <code>CLAUDE.md</code>, Claude Code créera des commits détaillés après chaque série de modifications, avec des messages suivant le format :
+      </p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">Format de commit standard</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code>type: sujet court à l'impératif
+
+- Description du changement 1
+- Description du changement 2
+- Contexte ou motivation si pertinent
+
+Types courants : feat, fix, chore, docs, refactor, test, style</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== SÉCURITÉ ===== -->
+    <section id="securite">
+      <h2>🔐 Sécurité — Variables d'environnement et secrets</h2>
+      <p>
+        Aucune donnée sensible (clés API, mots de passe, tokens, chaînes de connexion) ne doit <strong>jamais</strong> être présente dans le code source ou dans l'historique Git.
+      </p>
+
+      <h3>Règle d'or : .env + .env.example</h3>
+      <p>Chaque projet doit avoir ces deux fichiers :</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 28%;">Fichier</th>
+            <th style="width: 20%;">Commité ?</th>
+            <th>Rôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>.env</code></td>
+            <td>❌ <strong>Jamais</strong></td>
+            <td>Contient les vraies valeurs (secrets, clés, URL de base de données)</td>
+          </tr>
+          <tr>
+            <td><code>.env.example</code></td>
+            <td>✅ Oui</td>
+            <td>Liste les variables attendues avec valeurs bidon ou vides. Sert de template.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Exemple de .env.example</h4>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">.env.example</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># Base de données</span>
+<span class="tok-var">DATABASE_URL</span>=postgresql://user:password@localhost:5432/dbname
+
+<span class="tok-cmt"># API externes</span>
+<span class="tok-var">STRIPE_API_KEY</span>=sk_test_xxxxxxxxxxxxx
+<span class="tok-var">SENDGRID_API_KEY</span>=SG.xxxxxxxxxxxxx
+
+<span class="tok-cmt"># Authentification</span>
+<span class="tok-var">JWT_SECRET</span>=change-me-in-production
+<span class="tok-var">SESSION_SECRET</span>=change-me-in-production
+
+<span class="tok-cmt"># Environnement</span>
+<span class="tok-var">NODE_ENV</span>=development
+<span class="tok-var">PORT</span>=3000</code></pre>
+      </div>
+
+      <h3>Que faire si un secret a été commité par erreur ?</h3>
+      <ol>
+        <li><strong>Révoquer immédiatement</strong> le secret auprès du service émetteur (Stripe, AWS, etc.)</li>
+        <li>Générer un nouveau secret et le stocker dans <code>.env</code></li>
+        <li>Signaler l'incident au lead technique</li>
+        <li>Si le dépôt est public ou partagé : nettoyer l'historique avec <code>git filter-repo</code> (contacter le lead)</li>
+      </ol>
+
+      <div class="callout danger">
+        <div class="callout-title">🚨 Ne jamais faire</div>
+        <div class="callout-body">
+          <ul style="margin: 4px 0 0 20px;">
+            <li>Commiter un <code>.env</code> « juste pour tester »</li>
+            <li>Coller un secret dans un message de commit</li>
+            <li>Partager un <code>.env</code> par Slack, email ou Teams — utilisez un gestionnaire de secrets</li>
+            <li>Push-force sur <code>main</code> sans autorisation du lead</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GITIGNORE ===== -->
+    <section id="gitignore">
+      <h2>Template .gitignore</h2>
+      <p>
+        Template de base à adapter selon la stack du projet. Couvre les cas courants : Node.js, Python, PHP, fichiers d'IDE et secrets.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">.gitignore</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code><span class="tok-cmt"># ============ SECRETS &amp; ENV ============</span>
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+
+<span class="tok-cmt"># ============ NODE.JS ============</span>
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.next/
+.nuxt/
+coverage/
+
+<span class="tok-cmt"># ============ PYTHON ============</span>
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+<span class="tok-cmt"># ============ PHP / LARAVEL ============</span>
+vendor/
+/storage/*.key
+/public/storage
+
+<span class="tok-cmt"># ============ IDE &amp; OS ============</span>
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+<span class="tok-cmt"># ============ LOGS &amp; TEMP ============</span>
+*.log
+logs/
+tmp/
+temp/
+
+<span class="tok-cmt"># ============ BASES DE DONNÉES LOCALES ============</span>
+*.sqlite
+*.sqlite3
+*.db
+
+<span class="tok-cmt"># ============ UPLOADS UTILISATEURS ============</span>
+uploads/
+public/uploads/</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== CHECKLIST ===== -->
+    <section id="checklist">
+      <h2>✅ Checklist finale</h2>
+      <p>
+        Cliquez sur chaque case au fur et à mesure de votre progression. La checklist est persistante dans votre navigateur pour cette session.
+      </p>
+
+      <ul class="checklist" id="checklist">
+        <li>Node.js, npm et Git installés et vérifiés</li>
+        <li>Claude Code installé globalement et authentifié</li>
+        <li>Authentification Git configurée (GitHub CLI ou PAT)</li>
+        <li>Dossier du projet créé avec un nom en kebab-case</li>
+        <li>Fichiers du projet récupérés (si applicable)</li>
+        <li>Dépôt distant créé <strong>vide</strong> dans l'organisation Lithium Marketing</li>
+        <li>URL du dépôt distant copiée</li>
+        <li>Claude Code lancé dans le dossier du projet (<code>claude</code>)</li>
+        <li>Prompt standardisé Lithium collé avec l'URL du remote</li>
+        <li>Claude a analysé le projet et créé <code>.gitignore</code>, <code>.env.example</code>, <code>CLAUDE.md</code>, <code>README.md</code></li>
+        <li>Aucun secret détecté avant le commit</li>
+        <li>Git initialisé, premier commit effectué, remote ajouté et push réussi (par Claude)</li>
+        <li>Vérification finale : <code>git status</code> clean, <code>git remote -v</code> OK</li>
+        <li>Code visible sur la plateforme distante ✓</li>
+        <li>README s'affiche correctement sur la page d'accueil du dépôt</li>
+      </ul>
+    </section>
+
+    <!-- ===== TROUBLESHOOTING ===== -->
+    <section id="troubleshooting">
+      <h2>🛠️ Dépannage courant</h2>
+
+      <h4><code>claude: command not found</code></h4>
+      <p>Le dossier global npm n'est pas dans le PATH. Ajoutez-le ou relancez PowerShell. Vérifiez avec <code>npm config get prefix</code>.</p>
+
+      <h4><code>fatal: remote origin already exists</code></h4>
+      <p>Un remote est déjà configuré. Supprimez-le avec <code>git remote remove origin</code> puis ajoutez-le à nouveau.</p>
+
+      <h4><code>error: failed to push some refs</code></h4>
+      <p>Le remote contient déjà des commits (README initial créé par erreur). Faites <code>git pull origin main --rebase</code> puis <code>git push</code>.</p>
+
+      <h4>Authentification refusée sur <code>git push</code></h4>
+      <p>Utilisez un Personal Access Token à la place du mot de passe, ou configurez GitHub CLI avec <code>gh auth login</code>.</p>
+
+      <h4>Fichier <code>.env</code> commité par erreur</h4>
+      <p>Voir la section <a href="#securite">Sécurité</a>. Révoquez les secrets <strong>immédiatement</strong>.</p>
+
+      <div class="callout info">
+        <div class="callout-title">💡 Besoin d'aide ?</div>
+        <div class="callout-body">
+          Contactez le lead technique ou ouvrez un ticket interne. Toute amélioration à cette procédure est bienvenue — proposez un PR sur ce document.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        <strong>Lithium Marketing</strong> · Procédure interne de développement
+      </div>
+      <div class="version">v1.1 · 2026</div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Copy-to-clipboard pour les blocs de code
+  function copyCode(btn) {
+    const codeBlock = btn.closest('.code-block').querySelector('pre code');
+    const text = codeBlock.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = '✓ Copié';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  }
+
+  // Checklist persistante
+  const checklist = document.getElementById('checklist');
+  if (checklist) {
+    const items = checklist.querySelectorAll('li');
+    const storageKey = 'lithium-checklist-state';
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+    items.forEach((li, i) => {
+      if (saved[i]) li.classList.add('done');
+      li.addEventListener('click', () => {
+        li.classList.toggle('done');
+        const state = Array.from(items).map(el => el.classList.contains('done'));
+        localStorage.setItem(storageKey, JSON.stringify(state));
+      });
+    });
+  }
+
+  // Navigation active au scroll
+  const navLinks = document.querySelectorAll('.nav-list a');
+  const sections = Array.from(navLinks).map(a => {
+    const id = a.getAttribute('href').slice(1);
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  function updateActive() {
+    const scrollPos = window.scrollY + 120;
+    let current = null;
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollPos) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActive);
+  updateActive();
+</script>
+
+</body>
+</html>
