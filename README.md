@@ -2,6 +2,8 @@
 
 Procédure officielle de démarrage de projet chez Lithium Marketing. Ce dépôt héberge le guide HTML interne qui standardise l'initialisation de tout projet ERP ou application web de l'équipe.
 
+**Guide en ligne : [lithiummarketing.github.io/dev-standards](https://lithiummarketing.github.io/dev-standards/)**
+
 ## Contenu du dépôt
 
 | Fichier | Rôle |
@@ -11,14 +13,20 @@ Procédure officielle de démarrage de projet chez Lithium Marketing. Ce dépôt
 
 ## Consulter le guide
 
+### En ligne (recommandé)
+
+Version publiée via GitHub Pages, toujours à jour avec la branche `main` :
+
+> https://lithiummarketing.github.io/dev-standards/
+
+### En local
+
 Ouvrir `index.html` directement dans un navigateur. Le document est autonome : pas de build, pas de dépendance, uniquement des polices Google Fonts chargées en ligne.
 
 ```powershell
 # Depuis PowerShell, à la racine du dépôt
 Start-Process index.html
 ```
-
-Le guide est une page statique — elle peut être publiée telle quelle via GitHub Pages si besoin.
 
 ## Public visé
 
