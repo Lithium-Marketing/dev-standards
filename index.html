@@ -541,9 +541,10 @@
     <ul class="nav-list">
       <li><a href="#etape-1">1. Installation Claude Code</a></li>
       <li><a href="#etape-2">2. Préparation du projet</a></li>
-      <li><a href="#etape-3">3. Création du dépôt distant</a></li>
-      <li><a href="#etape-4">4. Délégation à Claude Code</a></li>
-      <li><a href="#etape-5">5. Validation finale</a></li>
+      <li><a href="#etape-3">3. Spécifications du projet</a></li>
+      <li><a href="#etape-4">4. Création du dépôt distant</a></li>
+      <li><a href="#etape-5">5. Délégation à Claude Code</a></li>
+      <li><a href="#etape-6">6. Validation finale</a></li>
     </ul>
 
     <div class="nav-title">Sécurité</div>
@@ -563,7 +564,7 @@
   <main class="main">
 
     <header class="doc-header">
-      <span class="doc-kicker">PROCÉDURE INTERNE · v1.1</span>
+      <span class="doc-kicker">PROCÉDURE INTERNE · v1.2</span>
       <h1>Standardisation du démarrage de projet</h1>
       <p class="doc-subtitle">
         Procédure officielle pour initier, documenter et versionner tout projet ERP ou application web chez Lithium Marketing. La quasi-totalité des opérations techniques est déléguée à Claude Code — le développeur se concentre sur les décisions, pas sur les commandes.
@@ -729,7 +730,97 @@ Copy-Item -Path <span class="tok-str">"C:\Chemin\Source\*"</span> -Destination .
 
     <!-- ===== ÉTAPE 3 ===== -->
     <section id="etape-3">
-      <h2><span class="step-num">3</span>Création du dépôt distant</h2>
+      <h2><span class="step-num">3</span>Spécifications du projet</h2>
+      <p>
+        Avant de déléguer à Claude Code, fournissez-lui le <strong>cahier des charges</strong> du projet : ce qu'il faut construire, les fonctionnalités attendues, les contraintes techniques et les décisions déjà prises avec le client. Plus les spécifications sont claires, plus le code généré sera aligné avec les attentes — et moins il y aura d'allers-retours.
+      </p>
+
+      <h3>Convention : dossier <code>_ref/</code></h3>
+      <p>
+        Créez à la racine du projet un dossier <code>_ref/</code> contenant tous les documents de référence : cahier des charges (Word, PDF), maquettes, schémas, extraits d'emails, captures d'écran, notes de réunion, etc. Ce dossier est <strong>exclu du dépôt Git</strong> (présent dans le <code>.gitignore</code>) car il contient typiquement des informations client sensibles ou du matériel interne à ne pas publier.
+      </p>
+
+      <div class="file-tree">
+<span class="folder">mon-projet/</span>
+├── <span class="highlight">_ref/</span>                     <span class="cmt"># Documents de référence — JAMAIS commité</span>
+│   ├── <span class="file">cahier-des-charges.docx</span>
+│   ├── <span class="file">maquettes.pdf</span>
+│   └── <span class="file">notes-client.md</span>
+├── <span class="file">.gitignore</span>
+└── <span class="cmt">...</span>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Ne jamais commiter <code>_ref/</code></div>
+        <div class="callout-body">
+          Le dossier <code>_ref/</code> contient des documents client, des emails et des specs internes. Il doit être listé dans <code>.gitignore</code> dès la création du projet, avant tout commit. Claude Code l'ajoute automatiquement si vous suivez le prompt standardisé.
+        </div>
+      </div>
+
+      <h3>Exemple : démarrer un projet Laravel à partir d'un cahier des charges</h3>
+      <p>
+        Une fois le cahier des charges déposé dans <code>_ref/</code>, vous pouvez pointer Claude vers ce document au moment de la délégation (étape 5). Exemple pour un projet Laravel :
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">Prompt — exemple avec _ref/</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code>Je veux créer un projet Laravel avec les fonctionnalités décrites
+dans _ref/cahier-des-charges.docx.
+
+Lis d'abord ce document en détail, résume-moi les fonctionnalités
+principales et les points ambigus, puis applique la procédure
+standardisée Lithium Marketing (prompt ci-dessous).
+
+Demande-moi confirmation avant toute décision d'architecture
+qui n'est pas couverte par le cahier des charges.
+
+[... coller ensuite le prompt standardisé Lithium Marketing ...]</code></pre>
+      </div>
+
+      <h3>Synchronisation Gmail (optionnelle)</h3>
+      <p>
+        Si Claude Code est configuré avec le connecteur <strong>Gmail</strong> (via Claude.ai Connectors ou un serveur MCP dédié), vous pouvez lui demander de rechercher dans vos emails les communications liées au projet : briefs client, échanges préliminaires, décisions validées par email ou chat. Claude peut ensuite synthétiser ces échanges dans <code>_ref/</code> pour alimenter le contexte.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang md">Prompt — recherche Gmail</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        </div>
+<pre><code>Avant de démarrer, recherche dans mes emails Gmail toutes les
+communications relatives au projet "Nom du client / Nom du projet"
+des 3 derniers mois (emails reçus, envoyés et discussions de chat
+associées).
+
+Synthétise les fonctionnalités demandées, les contraintes, les
+décisions déjà prises et les points encore ouverts. Sauvegarde
+ce résumé dans _ref/resume-emails.md.
+
+Ensuite, applique la procédure standardisée Lithium Marketing en
+tenant compte de ce contexte.</code></pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">ℹ️ Prérequis pour le connecteur Gmail</div>
+        <div class="callout-body">
+          La synchronisation Gmail nécessite que le connecteur soit installé et autorisé dans votre environnement Claude Code (<a href="https://claude.ai" target="_blank">claude.ai</a> → Connectors, ou un serveur MCP Gmail dédié). Si la fonctionnalité n'est pas disponible sur votre machine, contactez le lead technique.
+        </div>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">🚨 Confidentialité des contenus Gmail</div>
+        <div class="callout-body">
+          Les résumés d'emails peuvent contenir des informations confidentielles (clients, prix, échanges internes). Ils doivent rester dans <code>_ref/</code> et ne jamais être commités. Vérifiez toujours le contenu avant d'autoriser Claude à l'utiliser ailleurs que dans ce dossier.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ÉTAPE 4 ===== -->
+    <section id="etape-4">
+      <h2><span class="step-num">4</span>Création du dépôt distant</h2>
       <p>
         Créez le dépôt distant <strong>vide</strong> dans l'organisation <strong>Lithium Marketing</strong> via l'interface web de GitHub (ou la plateforme utilisée). Cette étape doit être faite avant de lancer Claude Code pour que le remote soit prêt à recevoir le push.
       </p>
@@ -769,9 +860,9 @@ Copy-Item -Path <span class="tok-str">"C:\Chemin\Source\*"</span> -Destination .
       </div>
     </section>
 
-    <!-- ===== ÉTAPE 4 ===== -->
-    <section id="etape-4">
-      <h2><span class="step-num">4</span>Délégation à Claude Code</h2>
+    <!-- ===== ÉTAPE 5 ===== -->
+    <section id="etape-5">
+      <h2><span class="step-num">5</span>Délégation à Claude Code</h2>
       <p>
         Lancez Claude Code dans le dossier du projet, puis donnez-lui le prompt standardisé ci-dessous. Claude s'occupe de <strong>tout</strong> le reste : analyse, création des fichiers, init Git, remote, commit et push.
       </p>
@@ -802,11 +893,14 @@ confirmation avant toute action destructive :
 1. ANALYSE
    Analyse le contenu du dossier et identifie la stack technique
    (langages, frameworks, outils). Liste ce que tu as trouvé.
+   Si un dossier _ref/ existe, lis son contenu pour comprendre
+   les spécifications fonctionnelles du projet et résume-les-moi
+   avant de continuer.
 
 2. FICHIERS DE BASE
    Crée (s'ils n'existent pas) :
    - .gitignore adapté à la stack détectée (secrets, node_modules,
-     builds, fichiers d'IDE, fichiers OS)
+     builds, fichiers d'IDE, fichiers OS, _ref/, .claude/settings.local.json)
    - .env.example listant les variables d'environnement attendues
      (sans valeurs réelles)
    - CLAUDE.md contenant :
@@ -829,7 +923,7 @@ confirmation avant toute action destructive :
 
 3. GIT
    - Initialise Git avec la branche principale "main" (git init -b main)
-   - Vérifie que .env, secrets et node_modules sont bien exclus
+   - Vérifie que .env, secrets, node_modules et _ref/ sont bien exclus
    - Fais le premier commit avec le message :
      "chore: initial project setup with Lithium Marketing standards"
 
@@ -864,9 +958,9 @@ IMPORTANT :
       </div>
     </section>
 
-    <!-- ===== ÉTAPE 5 ===== -->
-    <section id="etape-5">
-      <h2><span class="step-num">5</span>Validation finale</h2>
+    <!-- ===== ÉTAPE 6 ===== -->
+    <section id="etape-6">
+      <h2><span class="step-num">6</span>Validation finale</h2>
       <p>
         Une fois Claude terminé, vérifiez que tout est en place avec ces quelques contrôles rapides.
       </p>
@@ -906,6 +1000,7 @@ git log --oneline</code></pre>
 ├── <span class="file">.gitignore</span>             <span class="cmt"># Adapté à la stack</span>
 ├── <span class="file">.env.example</span>           <span class="cmt"># Template des variables d'env</span>
 ├── <span class="file">.env</span>                   <span class="cmt"># Local uniquement, JAMAIS commité</span>
+├── <span class="folder">_ref/</span>                 <span class="cmt"># Cahier des charges et docs internes — JAMAIS commité</span>
 ├── <span class="folder">src/</span>
 └── <span class="file">package.json</span>
       </div>
@@ -1024,6 +1119,10 @@ Types courants : feat, fix, chore, docs, refactor, test, style</code></pre>
 *.key
 secrets/
 
+<span class="tok-cmt"># ============ RÉFÉRENCES INTERNES ============</span>
+<span class="tok-cmt"># Cahier des charges, docs client, maquettes, emails — jamais publiés</span>
+_ref/
+
 <span class="tok-cmt"># ============ NODE.JS ============</span>
 node_modules/
 npm-debug.log*
@@ -1137,7 +1236,7 @@ public/uploads/</code></pre>
       <div>
         <strong>Lithium Marketing</strong> · Procédure interne de développement
       </div>
-      <div class="version">v1.1 · 2026</div>
+      <div class="version">v1.2 · 2026</div>
     </footer>
 
   </main>
